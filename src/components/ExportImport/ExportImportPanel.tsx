@@ -68,7 +68,7 @@ const ExportImportPanel = () => {
 
   return (
     <>
-      <Stack direction="row" spacing={1.5}>
+      <Stack direction={{ xs: "column", md: "row" }} spacing={1.5}>
         <Button
           variant="contained"
           startIcon={<CodeIcon />}
