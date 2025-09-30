@@ -14,9 +14,6 @@ import {
   Alert,
   IconButton,
   Snackbar,
-  List,
-  ListItem,
-  ListItemText,
 } from "@mui/material";
 import CodeIcon from "@mui/icons-material/Code";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
