@@ -360,13 +360,33 @@ const Sidebar = () => {
         pb: 6,
       }}
     >
-      <Box sx={{ p: 3, pt: 2, pb: 0 }}>
+      <Box sx={{ p: 3, pt: 2, pb: 2 }}>
         <Typography variant="h5" fontWeight="700" sx={{ mb: 0.5 }}>
           Theme Builder
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
           Customize your Material UI theme
         </Typography>
+
+        <FormControl fullWidth size="small">
+          <InputLabel id="preset-theme-label">Preset Themes</InputLabel>
+          <Select
+            labelId="preset-theme-label"
+            id="preset-theme-select"
+            value={selectedPreset}
+            label="Preset Themes"
+            onChange={(e) => applyPresetTheme(e.target.value)}
+          >
+            <MenuItem value="">
+              <em>Custom</em>
+            </MenuItem>
+            {Object.keys(presetThemes).map((name) => (
+              <MenuItem key={name} value={name}>
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Box>
 
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -392,28 +412,6 @@ const Sidebar = () => {
       <Box sx={{ flexGrow: 1, overflowY: "auto", px: 3 }}>
         {/* Colors Tab */}
         <TabPanel value={activeTab} index={0}>
-          <FormControl fullWidth size="small" sx={{ mb: 3 }}>
-            <InputLabel id="preset-theme-label">Preset Themes</InputLabel>
-            <Select
-              labelId="preset-theme-label"
-              id="preset-theme-select"
-              value={selectedPreset}
-              label="Preset Themes"
-              onChange={(e) => applyPresetTheme(e.target.value)}
-            >
-              <MenuItem value="">
-                <em>Custom</em>
-              </MenuItem>
-              {Object.keys(presetThemes).map((name) => (
-                <MenuItem key={name} value={name}>
-                  {name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <Divider sx={{ my: 2 }} />
-
           <FormControlLabel
             control={
               <Switch
