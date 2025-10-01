@@ -4,16 +4,21 @@ import {
   Typography,
   Tabs,
   Tab,
-  Switch,
-  FormControlLabel,
   Divider,
   TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Switch,
+  FormControlLabel,
 } from "@mui/material";
 import { useThemeContext } from "../../contexts/ThemeContext";
 import ColorPicker from "../controls/ColorPicker";
 import FontSelector from "../controls/FontSelector";
 import TypographyControl from "../controls/TypographyControl";
 import ShadowControl from "../controls/ShadowControl";
+import type { CustomThemeConfig } from "../../theme/defaultTheme";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -37,15 +42,271 @@ const TabPanel = (props: TabPanelProps) => {
   );
 };
 
+const presetThemes: Record<string, Partial<CustomThemeConfig>> = {
+  "Material Default": {
+    palette: {
+      mode: "light",
+      primary: { main: "#1976d2" },
+      secondary: { main: "#dc004e" },
+      error: { main: "#d32f2f" },
+      warning: { main: "#ed6c02" },
+      info: { main: "#0288d1" },
+      success: { main: "#2e7d32" },
+      background: { default: "#ffffff", paper: "#f5f5f5" },
+      text: { primary: "rgba(0, 0, 0, 0.87)", secondary: "rgba(0, 0, 0, 0.6)" },
+    },
+    typography: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      h1: { fontSize: "6rem", fontWeight: 300, lineHeight: 1.167 },
+      h2: { fontSize: "3.75rem", fontWeight: 300, lineHeight: 1.2 },
+      h3: { fontSize: "3rem", fontWeight: 400, lineHeight: 1.167 },
+      h4: { fontSize: "2.125rem", fontWeight: 400, lineHeight: 1.235 },
+      h5: { fontSize: "1.5rem", fontWeight: 400, lineHeight: 1.334 },
+      h6: { fontSize: "1.25rem", fontWeight: 500, lineHeight: 1.6 },
+      body1: { fontSize: "1rem", fontWeight: 400, lineHeight: 1.5 },
+      body2: { fontSize: "0.875rem", fontWeight: 400, lineHeight: 1.43 },
+    },
+    spacing: 8,
+    shape: { borderRadius: 4 },
+    customShadow: {
+      color: "#000000",
+      opacity: 0.2,
+      blur: 4,
+      spread: 0,
+      offsetX: 0,
+      offsetY: 2,
+    },
+  },
+  "Ocean Blue": {
+    palette: {
+      mode: "light",
+      primary: { main: "#006494" },
+      secondary: { main: "#13293d" },
+      error: { main: "#c62828" },
+      warning: { main: "#f57c00" },
+      info: { main: "#0277bd" },
+      success: { main: "#2e7d32" },
+      background: { default: "#f0f4f8", paper: "#ffffff" },
+      text: { primary: "#13293d", secondary: "rgba(19, 41, 61, 0.7)" },
+    },
+    typography: {
+      fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+      h1: { fontSize: "5rem", fontWeight: 700, lineHeight: 1.2 },
+      h2: { fontSize: "3.5rem", fontWeight: 700, lineHeight: 1.2 },
+      h3: { fontSize: "2.75rem", fontWeight: 600, lineHeight: 1.2 },
+      h4: { fontSize: "2rem", fontWeight: 600, lineHeight: 1.3 },
+      h5: { fontSize: "1.5rem", fontWeight: 600, lineHeight: 1.4 },
+      h6: { fontSize: "1.25rem", fontWeight: 600, lineHeight: 1.5 },
+      body1: { fontSize: "1rem", fontWeight: 400, lineHeight: 1.6 },
+      body2: { fontSize: "0.875rem", fontWeight: 400, lineHeight: 1.5 },
+    },
+    spacing: 8,
+    shape: { borderRadius: 8 },
+    customShadow: {
+      color: "#006494",
+      opacity: 0.15,
+      blur: 8,
+      spread: 0,
+      offsetX: 0,
+      offsetY: 3,
+    },
+  },
+  "Forest Green": {
+    palette: {
+      mode: "light",
+      primary: { main: "#2d6a4f" },
+      secondary: { main: "#95d5b2" },
+      error: { main: "#c62828" },
+      warning: { main: "#f57c00" },
+      info: { main: "#0288d1" },
+      success: { main: "#2e7d32" },
+      background: { default: "#f1faee", paper: "#ffffff" },
+      text: { primary: "#1b4332", secondary: "rgba(27, 67, 50, 0.7)" },
+    },
+    typography: {
+      fontFamily: '"Merriweather", "Georgia", serif',
+      h1: { fontSize: "5.5rem", fontWeight: 300, lineHeight: 1.2 },
+      h2: { fontSize: "4rem", fontWeight: 300, lineHeight: 1.25 },
+      h3: { fontSize: "3rem", fontWeight: 400, lineHeight: 1.3 },
+      h4: { fontSize: "2.25rem", fontWeight: 400, lineHeight: 1.35 },
+      h5: { fontSize: "1.75rem", fontWeight: 400, lineHeight: 1.4 },
+      h6: { fontSize: "1.375rem", fontWeight: 500, lineHeight: 1.5 },
+      body1: { fontSize: "1rem", fontWeight: 400, lineHeight: 1.7 },
+      body2: { fontSize: "0.9375rem", fontWeight: 400, lineHeight: 1.6 },
+    },
+    spacing: 10,
+    shape: { borderRadius: 12 },
+    customShadow: {
+      color: "#2d6a4f",
+      opacity: 0.12,
+      blur: 12,
+      spread: 0,
+      offsetX: 0,
+      offsetY: 4,
+    },
+  },
+  "Sunset Orange": {
+    palette: {
+      mode: "light",
+      primary: { main: "#f77f00" },
+      secondary: { main: "#d62828" },
+      error: { main: "#c62828" },
+      warning: { main: "#f57c00" },
+      info: { main: "#0288d1" },
+      success: { main: "#2e7d32" },
+      background: { default: "#fcf6f5", paper: "#ffffff" },
+      text: { primary: "#003049", secondary: "rgba(0, 48, 73, 0.7)" },
+    },
+    typography: {
+      fontFamily: '"Poppins", "Roboto", "Arial", sans-serif',
+      h1: { fontSize: "5.5rem", fontWeight: 800, lineHeight: 1.1 },
+      h2: { fontSize: "4rem", fontWeight: 700, lineHeight: 1.15 },
+      h3: { fontSize: "3rem", fontWeight: 700, lineHeight: 1.2 },
+      h4: { fontSize: "2.25rem", fontWeight: 600, lineHeight: 1.25 },
+      h5: { fontSize: "1.625rem", fontWeight: 600, lineHeight: 1.3 },
+      h6: { fontSize: "1.375rem", fontWeight: 600, lineHeight: 1.4 },
+      body1: { fontSize: "1rem", fontWeight: 400, lineHeight: 1.6 },
+      body2: { fontSize: "0.875rem", fontWeight: 400, lineHeight: 1.5 },
+    },
+    spacing: 8,
+    shape: { borderRadius: 16 },
+    customShadow: {
+      color: "#f77f00",
+      opacity: 0.25,
+      blur: 16,
+      spread: 0,
+      offsetX: 0,
+      offsetY: 4,
+    },
+  },
+  "Purple Dream": {
+    palette: {
+      mode: "light",
+      primary: { main: "#7209b7" },
+      secondary: { main: "#f72585" },
+      error: { main: "#c62828" },
+      warning: { main: "#f57c00" },
+      info: { main: "#0288d1" },
+      success: { main: "#2e7d32" },
+      background: { default: "#fdf0f8", paper: "#ffffff" },
+      text: { primary: "#3c096c", secondary: "rgba(60, 9, 108, 0.7)" },
+    },
+    typography: {
+      fontFamily: '"Quicksand", "Roboto", "Arial", sans-serif',
+      h1: { fontSize: "5.5rem", fontWeight: 700, lineHeight: 1.15 },
+      h2: { fontSize: "4rem", fontWeight: 600, lineHeight: 1.2 },
+      h3: { fontSize: "3rem", fontWeight: 600, lineHeight: 1.25 },
+      h4: { fontSize: "2.25rem", fontWeight: 500, lineHeight: 1.3 },
+      h5: { fontSize: "1.625rem", fontWeight: 500, lineHeight: 1.35 },
+      h6: { fontSize: "1.375rem", fontWeight: 500, lineHeight: 1.4 },
+      body1: { fontSize: "1rem", fontWeight: 400, lineHeight: 1.6 },
+      body2: { fontSize: "0.875rem", fontWeight: 400, lineHeight: 1.5 },
+    },
+    spacing: 12,
+    shape: { borderRadius: 20 },
+    customShadow: {
+      color: "#7209b7",
+      opacity: 0.2,
+      blur: 20,
+      spread: 0,
+      offsetX: 0,
+      offsetY: 6,
+    },
+  },
+  "Midnight": {
+    palette: {
+      mode: "dark",
+      primary: { main: "#4dabf7" },
+      secondary: { main: "#ffd43b" },
+      error: { main: "#ff6b6b" },
+      warning: { main: "#ffa94d" },
+      info: { main: "#74c0fc" },
+      success: { main: "#51cf66" },
+      background: { default: "#0a0e27", paper: "#1a1d3a" },
+      text: { primary: "#e0e7ff", secondary: "rgba(224, 231, 255, 0.7)" },
+    },
+    typography: {
+      fontFamily: '"Montserrat", "Roboto", "Arial", sans-serif',
+      h1: { fontSize: "5.5rem", fontWeight: 700, lineHeight: 1.1 },
+      h2: { fontSize: "4rem", fontWeight: 600, lineHeight: 1.15 },
+      h3: { fontSize: "3rem", fontWeight: 600, lineHeight: 1.2 },
+      h4: { fontSize: "2.25rem", fontWeight: 500, lineHeight: 1.25 },
+      h5: { fontSize: "1.625rem", fontWeight: 500, lineHeight: 1.3 },
+      h6: { fontSize: "1.375rem", fontWeight: 500, lineHeight: 1.4 },
+      body1: { fontSize: "1rem", fontWeight: 400, lineHeight: 1.6 },
+      body2: { fontSize: "0.875rem", fontWeight: 400, lineHeight: 1.5 },
+    },
+    spacing: 8,
+    shape: { borderRadius: 6 },
+    customShadow: {
+      color: "#4dabf7",
+      opacity: 0.3,
+      blur: 12,
+      spread: 0,
+      offsetX: 0,
+      offsetY: 4,
+    },
+  },
+  "Cyberpunk": {
+    palette: {
+      mode: "dark",
+      primary: { main: "#00ffff" },
+      secondary: { main: "#ff00ff" },
+      error: { main: "#ff3366" },
+      warning: { main: "#ffcc00" },
+      info: { main: "#00ffff" },
+      success: { main: "#00ff99" },
+      background: { default: "#0d1117", paper: "#161b22" },
+      text: { primary: "#f0f6fc", secondary: "rgba(240, 246, 252, 0.7)" },
+    },
+    typography: {
+      fontFamily: '"Rajdhani", "Roboto Mono", "Courier New", monospace',
+      h1: { fontSize: "6rem", fontWeight: 700, lineHeight: 1.1 },
+      h2: { fontSize: "4.5rem", fontWeight: 700, lineHeight: 1.1 },
+      h3: { fontSize: "3.5rem", fontWeight: 600, lineHeight: 1.15 },
+      h4: { fontSize: "2.5rem", fontWeight: 600, lineHeight: 1.2 },
+      h5: { fontSize: "1.75rem", fontWeight: 600, lineHeight: 1.25 },
+      h6: { fontSize: "1.5rem", fontWeight: 600, lineHeight: 1.3 },
+      body1: { fontSize: "1rem", fontWeight: 500, lineHeight: 1.5 },
+      body2: { fontSize: "0.9375rem", fontWeight: 500, lineHeight: 1.4 },
+    },
+    spacing: 6,
+    shape: { borderRadius: 2 },
+    customShadow: {
+      color: "#00ffff",
+      opacity: 0.5,
+      blur: 20,
+      spread: 0,
+      offsetX: 0,
+      offsetY: 0,
+    },
+  },
+};
+
 const Sidebar = () => {
   const { themeConfig, updateThemeConfig } = useThemeContext();
   const [activeTab, setActiveTab] = useState(0);
+  const [selectedPreset, setSelectedPreset] = useState("");
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
+  const applyPresetTheme = (presetName: string) => {
+    if (presetName && presetThemes[presetName]) {
+      setSelectedPreset(presetName);
+      updateThemeConfig(presetThemes[presetName]);
+    }
+  };
+
+  // Wrapper function that resets preset when manual changes are made
+  const updateThemeWithReset = (config: Partial<CustomThemeConfig>) => {
+    setSelectedPreset("");
+    updateThemeConfig(config);
+  };
+
   const handleColorChange = (path: string, value: string) => {
+    setSelectedPreset(""); // Reset preset selection when manual changes are made
     const keys = path.split(".");
     if (keys.length === 2) {
       updateThemeConfig({
@@ -131,6 +392,28 @@ const Sidebar = () => {
       <Box sx={{ flexGrow: 1, overflowY: "auto", px: 3 }}>
         {/* Colors Tab */}
         <TabPanel value={activeTab} index={0}>
+          <FormControl fullWidth size="small" sx={{ mb: 3 }}>
+            <InputLabel id="preset-theme-label">Preset Themes</InputLabel>
+            <Select
+              labelId="preset-theme-label"
+              id="preset-theme-select"
+              value={selectedPreset}
+              label="Preset Themes"
+              onChange={(e) => applyPresetTheme(e.target.value)}
+            >
+              <MenuItem value="">
+                <em>Custom</em>
+              </MenuItem>
+              {Object.keys(presetThemes).map((name) => (
+                <MenuItem key={name} value={name}>
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <Divider sx={{ my: 2 }} />
+
           <FormControlLabel
             control={
               <Switch
@@ -230,36 +513,13 @@ const Sidebar = () => {
               '"Roboto", "Helvetica", "Arial", sans-serif'
             }
             onChange={(font) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   fontFamily: font,
                 },
               })
             }
-          />
-
-          <Divider sx={{ my: 2 }} />
-
-          <TextField
-            label="Base Font Size"
-            size="small"
-            type="number"
-            value={themeConfig.typography?.fontSize || 14}
-            onChange={(e) =>
-              updateThemeConfig({
-                typography: {
-                  ...themeConfig.typography,
-                  fontSize: Number(e.target.value),
-                },
-              })
-            }
-            slotProps={{
-              htmlInput: { min: 10, max: 24 },
-            }}
-            helperText="Base size in pixels"
-            sx={{ mb: 2 }}
-            fullWidth
           />
 
           <Divider sx={{ my: 2 }} />
@@ -274,7 +534,7 @@ const Sidebar = () => {
             fontWeight={themeConfig.typography?.h1?.fontWeight || 300}
             lineHeight={themeConfig.typography?.h1?.lineHeight || 1.167}
             onFontSizeChange={(size) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h1: { ...themeConfig.typography?.h1, fontSize: size },
@@ -282,7 +542,7 @@ const Sidebar = () => {
               })
             }
             onFontWeightChange={(weight) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h1: { ...themeConfig.typography?.h1, fontWeight: weight },
@@ -290,7 +550,7 @@ const Sidebar = () => {
               })
             }
             onLineHeightChange={(height) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h1: { ...themeConfig.typography?.h1, lineHeight: height },
@@ -305,7 +565,7 @@ const Sidebar = () => {
             fontWeight={themeConfig.typography?.h2?.fontWeight || 300}
             lineHeight={themeConfig.typography?.h2?.lineHeight || 1.2}
             onFontSizeChange={(size) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h2: { ...themeConfig.typography?.h2, fontSize: size },
@@ -313,7 +573,7 @@ const Sidebar = () => {
               })
             }
             onFontWeightChange={(weight) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h2: { ...themeConfig.typography?.h2, fontWeight: weight },
@@ -321,7 +581,7 @@ const Sidebar = () => {
               })
             }
             onLineHeightChange={(height) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h2: { ...themeConfig.typography?.h2, lineHeight: height },
@@ -336,7 +596,7 @@ const Sidebar = () => {
             fontWeight={themeConfig.typography?.h3?.fontWeight || 400}
             lineHeight={themeConfig.typography?.h3?.lineHeight || 1.167}
             onFontSizeChange={(size) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h3: { ...themeConfig.typography?.h3, fontSize: size },
@@ -344,7 +604,7 @@ const Sidebar = () => {
               })
             }
             onFontWeightChange={(weight) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h3: { ...themeConfig.typography?.h3, fontWeight: weight },
@@ -352,7 +612,7 @@ const Sidebar = () => {
               })
             }
             onLineHeightChange={(height) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h3: { ...themeConfig.typography?.h3, lineHeight: height },
@@ -367,7 +627,7 @@ const Sidebar = () => {
             fontWeight={themeConfig.typography?.h4?.fontWeight || 400}
             lineHeight={themeConfig.typography?.h4?.lineHeight || 1.235}
             onFontSizeChange={(size) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h4: { ...themeConfig.typography?.h4, fontSize: size },
@@ -375,7 +635,7 @@ const Sidebar = () => {
               })
             }
             onFontWeightChange={(weight) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h4: { ...themeConfig.typography?.h4, fontWeight: weight },
@@ -383,7 +643,7 @@ const Sidebar = () => {
               })
             }
             onLineHeightChange={(height) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h4: { ...themeConfig.typography?.h4, lineHeight: height },
@@ -398,7 +658,7 @@ const Sidebar = () => {
             fontWeight={themeConfig.typography?.h5?.fontWeight || 400}
             lineHeight={themeConfig.typography?.h5?.lineHeight || 1.334}
             onFontSizeChange={(size) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h5: { ...themeConfig.typography?.h5, fontSize: size },
@@ -406,7 +666,7 @@ const Sidebar = () => {
               })
             }
             onFontWeightChange={(weight) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h5: { ...themeConfig.typography?.h5, fontWeight: weight },
@@ -414,7 +674,7 @@ const Sidebar = () => {
               })
             }
             onLineHeightChange={(height) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h5: { ...themeConfig.typography?.h5, lineHeight: height },
@@ -429,7 +689,7 @@ const Sidebar = () => {
             fontWeight={themeConfig.typography?.h6?.fontWeight || 500}
             lineHeight={themeConfig.typography?.h6?.lineHeight || 1.6}
             onFontSizeChange={(size) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h6: { ...themeConfig.typography?.h6, fontSize: size },
@@ -437,7 +697,7 @@ const Sidebar = () => {
               })
             }
             onFontWeightChange={(weight) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h6: { ...themeConfig.typography?.h6, fontWeight: weight },
@@ -445,7 +705,7 @@ const Sidebar = () => {
               })
             }
             onLineHeightChange={(height) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   h6: { ...themeConfig.typography?.h6, lineHeight: height },
@@ -466,7 +726,7 @@ const Sidebar = () => {
             fontWeight={themeConfig.typography?.body1?.fontWeight || 400}
             lineHeight={themeConfig.typography?.body1?.lineHeight || 1.5}
             onFontSizeChange={(size) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   body1: { ...themeConfig.typography?.body1, fontSize: size },
@@ -474,7 +734,7 @@ const Sidebar = () => {
               })
             }
             onFontWeightChange={(weight) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   body1: {
@@ -485,7 +745,7 @@ const Sidebar = () => {
               })
             }
             onLineHeightChange={(height) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   body1: {
@@ -503,7 +763,7 @@ const Sidebar = () => {
             fontWeight={themeConfig.typography?.body2?.fontWeight || 400}
             lineHeight={themeConfig.typography?.body2?.lineHeight || 1.43}
             onFontSizeChange={(size) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   body2: { ...themeConfig.typography?.body2, fontSize: size },
@@ -511,7 +771,7 @@ const Sidebar = () => {
               })
             }
             onFontWeightChange={(weight) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   body2: {
@@ -522,7 +782,7 @@ const Sidebar = () => {
               })
             }
             onLineHeightChange={(height) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 typography: {
                   ...themeConfig.typography,
                   body2: {
@@ -546,7 +806,7 @@ const Sidebar = () => {
             type="number"
             value={themeConfig.spacing || 8}
             onChange={(e) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 spacing: Number(e.target.value),
               })
             }
@@ -569,7 +829,7 @@ const Sidebar = () => {
             type="number"
             value={themeConfig.shape?.borderRadius || 4}
             onChange={(e) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 shape: {
                   ...themeConfig.shape,
                   borderRadius: Number(e.target.value),
@@ -632,7 +892,7 @@ const Sidebar = () => {
             offsetX={themeConfig.customShadow?.offsetX || 0}
             offsetY={themeConfig.customShadow?.offsetY || 2}
             onColorChange={(color) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 customShadow: {
                   ...themeConfig.customShadow,
                   color,
@@ -640,7 +900,7 @@ const Sidebar = () => {
               })
             }
             onOpacityChange={(opacity) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 customShadow: {
                   ...themeConfig.customShadow,
                   opacity,
@@ -648,7 +908,7 @@ const Sidebar = () => {
               })
             }
             onBlurChange={(blur) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 customShadow: {
                   ...themeConfig.customShadow,
                   blur,
@@ -656,7 +916,7 @@ const Sidebar = () => {
               })
             }
             onSpreadChange={(spread) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 customShadow: {
                   ...themeConfig.customShadow,
                   spread,
@@ -664,7 +924,7 @@ const Sidebar = () => {
               })
             }
             onOffsetXChange={(offsetX) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 customShadow: {
                   ...themeConfig.customShadow,
                   offsetX,
@@ -672,7 +932,7 @@ const Sidebar = () => {
               })
             }
             onOffsetYChange={(offsetY) =>
-              updateThemeConfig({
+              updateThemeWithReset({
                 customShadow: {
                   ...themeConfig.customShadow,
                   offsetY,

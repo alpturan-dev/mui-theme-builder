@@ -68,7 +68,7 @@ const PreviewPanel = () => {
         sx={{
           p: 2,
           pb: 0,
-          bgcolor: "background.paper",
+          bgcolor: "background.default",
           borderBottom: 1,
           borderColor: "divider",
         }}
