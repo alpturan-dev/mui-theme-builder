@@ -13,6 +13,7 @@ import { useThemeContext } from "../../contexts/ThemeContext";
 import ColorPicker from "../controls/ColorPicker";
 import FontSelector from "../controls/FontSelector";
 import TypographyControl from "../controls/TypographyControl";
+import ShadowControl from "../controls/ShadowControl";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -95,6 +96,7 @@ const Sidebar = () => {
         borderRight: 1,
         borderColor: "divider",
         bgcolor: "background.default",
+        pb: 6,
       }}
     >
       <Box sx={{ p: 3, pt: 2, pb: 0 }}>
@@ -614,6 +616,94 @@ const Sidebar = () => {
               }}
             >
               Spacing unit: {themeConfig.spacing || 8}px
+            </Box>
+          </Box>
+
+          <Divider sx={{ my: 3 }} />
+
+          <Typography variant="subtitle2" gutterBottom fontWeight="medium">
+            Shadow
+          </Typography>
+          <ShadowControl
+            color={themeConfig.customShadow?.color || "#000000"}
+            opacity={themeConfig.customShadow?.opacity || 0.2}
+            blur={themeConfig.customShadow?.blur || 4}
+            spread={themeConfig.customShadow?.spread || 0}
+            offsetX={themeConfig.customShadow?.offsetX || 0}
+            offsetY={themeConfig.customShadow?.offsetY || 2}
+            onColorChange={(color) =>
+              updateThemeConfig({
+                customShadow: {
+                  ...themeConfig.customShadow,
+                  color,
+                },
+              })
+            }
+            onOpacityChange={(opacity) =>
+              updateThemeConfig({
+                customShadow: {
+                  ...themeConfig.customShadow,
+                  opacity,
+                },
+              })
+            }
+            onBlurChange={(blur) =>
+              updateThemeConfig({
+                customShadow: {
+                  ...themeConfig.customShadow,
+                  blur,
+                },
+              })
+            }
+            onSpreadChange={(spread) =>
+              updateThemeConfig({
+                customShadow: {
+                  ...themeConfig.customShadow,
+                  spread,
+                },
+              })
+            }
+            onOffsetXChange={(offsetX) =>
+              updateThemeConfig({
+                customShadow: {
+                  ...themeConfig.customShadow,
+                  offsetX,
+                },
+              })
+            }
+            onOffsetYChange={(offsetY) =>
+              updateThemeConfig({
+                customShadow: {
+                  ...themeConfig.customShadow,
+                  offsetY,
+                },
+              })
+            }
+          />
+
+          <Box
+            sx={{
+              mt: 3,
+              p: 3,
+              border: 1,
+              borderColor: "divider",
+              borderRadius: 1,
+            }}
+          >
+            <Typography variant="body2" gutterBottom fontWeight="medium">
+              Shadow Preview
+            </Typography>
+            <Box
+              sx={{
+                mt: 2,
+                p: 3,
+                bgcolor: "background.paper",
+                borderRadius: `${themeConfig.shape?.borderRadius || 4}px`,
+                boxShadow: `${themeConfig.customShadow?.offsetX || 0}px ${themeConfig.customShadow?.offsetY || 2}px ${themeConfig.customShadow?.blur || 4}px ${themeConfig.customShadow?.spread || 0}px ${themeConfig.customShadow?.color || "#000000"}${Math.round((themeConfig.customShadow?.opacity || 0.2) * 255).toString(16).padStart(2, '0')}`,
+                textAlign: "center",
+              }}
+            >
+              <Typography variant="body1">Shadow Effect</Typography>
             </Box>
           </Box>
         </TabPanel>

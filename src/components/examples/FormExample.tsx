@@ -23,7 +23,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 
 const FormExample = () => {
   return (
-    <Box>
+    <Box sx={{ pb: 6 }}>
       <Typography variant="h4" gutterBottom>
         User Registration Form
       </Typography>

@@ -25,7 +25,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const DashboardExample = () => {
   return (
-    <Box>
+    <Box sx={{ pb: 6 }}>
       <Typography variant="h4" gutterBottom>
         Dashboard Overview
       </Typography>

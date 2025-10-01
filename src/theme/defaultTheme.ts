@@ -83,6 +83,14 @@ export type CustomThemeConfig = ThemeOptions & {
   shape?: {
     borderRadius?: number;
   };
+  customShadow?: {
+    color?: string;
+    opacity?: number;
+    blur?: number;
+    spread?: number;
+    offsetX?: number;
+    offsetY?: number;
+  };
 }
 
 export const defaultThemeConfig: CustomThemeConfig = {
@@ -167,5 +175,13 @@ export const defaultThemeConfig: CustomThemeConfig = {
   spacing: 8,
   shape: {
     borderRadius: 4,
+  },
+  customShadow: {
+    color: "#000000",
+    opacity: 0.2,
+    blur: 4,
+    spread: 0,
+    offsetX: 0,
+    offsetY: 2,
   },
 };

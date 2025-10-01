@@ -61,6 +61,7 @@ const PreviewPanel = () => {
         display: "flex",
         flexDirection: "column",
         bgcolor: "background.default",
+        pb: 6,
       }}
     >
       <Box
@@ -72,7 +73,14 @@ const PreviewPanel = () => {
           borderColor: "divider",
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 1.5,
+          }}
+        >
           <Typography variant="h6" fontWeight="600">
             Live Preview
           </Typography>

@@ -95,7 +95,7 @@ const ExportImportPanel = () => {
       <Dialog
         open={exportDialogOpen}
         onClose={() => setExportDialogOpen(false)}
-        maxWidth="lg"
+        maxWidth="sm"
         fullWidth
         PaperProps={{
           sx: {
